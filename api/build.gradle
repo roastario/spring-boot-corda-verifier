@@ -1,0 +1,55 @@
+buildscript {
+    ext.kotlin_version = '1.2.50'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+plugins {
+    id 'org.springframework.boot' version '1.5.10.RELEASE'
+}
+group 'com.r3'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+sourceCompatibility = 1.8
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven {
+        url 'https://dl.bintray.com/kotlin/kotlin-eap/'
+    }
+    maven {
+        url "https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases"
+    }
+}
+
+ext['artemis.version'] = "2.5.0"
+//ext['hibernate.version'] = "$hibernate_version"
+//ext['jackson.version'] = "$jackson_version"
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "1.5.10.RELEASE"
+    compile group: corda_group, name: "corda-rpc", version: corda_release_version
+    compile project(":cordapp")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2")
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+apply plugin:'application'
+mainClassName = "com.r3.corda.spring.boot.validation.Runner"
