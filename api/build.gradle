@@ -41,7 +41,9 @@ repositories {
 ext['artemis.version'] = "2.5.0"
 //ext['hibernate.version'] = "$hibernate_version"
 //ext['jackson.version'] = "$jackson_version"
-
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "1.5.10.RELEASE"

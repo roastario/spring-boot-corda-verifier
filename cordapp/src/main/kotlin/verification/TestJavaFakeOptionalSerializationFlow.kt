@@ -10,7 +10,7 @@ import java.util.*
 
 @StartableByRPC
 @InitiatingFlow
-class TestJavaFakeCommsWithOptionalFlowInitiator(val item: FakeOptional<String>) : FlowLogic<String>() {
+class TestJavaFakeCommsWithOptionalFlowInitiator(val item: FakeOptionalJava<String>) : FlowLogic<String>() {
 
     object UNPACKING : ProgressTracker.Step("UNPACKING")
     object RESPONDING : ProgressTracker.Step("RESPONDING")

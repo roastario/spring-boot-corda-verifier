@@ -15,6 +15,10 @@ public class FakeOptionalJava<T> {
         return item;
     }
 
+    public T getItem() {
+        return item;
+    }
+
     public FakeOptionalJava(T item) {
         this.item = item;
     }
