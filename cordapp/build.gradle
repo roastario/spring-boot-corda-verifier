@@ -40,6 +40,11 @@ apply plugin: 'net.corda.plugins.quasar-utils'
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << '-parameters'
+
+    doLast {
+        println(options.compilerArgs)
+    }
+
 }
 
 compileKotlin {
@@ -58,18 +63,18 @@ dependencies {
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
-    ext.rpcUsers = [['username': "test", 'password': "test", 'permissions': [ 'ALL' ]]]
+    ext.rpcUsers = [['username': "test", 'password': "test", 'permissions': ['ALL']]]
 
     directory "./build/nodes"
     node {
         name "O=Notary Service,L=Zurich,C=CH"
-        notary = [validating : false]
+        notary = [validating: false]
         p2pPort 10002
         rpcSettings {
             port 10003
             adminPort 10004
         }
-        h2Port   20004
+        h2Port 20004
     }
     node {
         name "O=Bank A,L=London,C=GB"

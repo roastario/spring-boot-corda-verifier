@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.2.50'
-    ext.corda_release_version = '4.0-SNAPSHOT'
-    ext.corda_group = 'net.corda'
+    ext.corda_release_version = '3.1'
+    ext.corda_group = 'com.r3.corda'
 
     repositories {
         mavenCentral()
