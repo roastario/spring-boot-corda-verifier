@@ -10,7 +10,7 @@ import java.util.*
 
 @StartableByRPC
 @InitiatingFlow
-class TestFakeCommsWithOptionalFlowInitiator(val item: FakeOptional<String>) : FlowLogic<String>() {
+class JavaInboundAndOutboundGenericFlow(val inbound: FakeOptionalJava<String>) : FlowLogic<FakeOptionalJava<List<String>>>() {
 
     object UNPACKING : ProgressTracker.Step("UNPACKING")
     object RESPONDING : ProgressTracker.Step("RESPONDING")
@@ -18,14 +18,11 @@ class TestFakeCommsWithOptionalFlowInitiator(val item: FakeOptional<String>) : F
     override val progressTracker: ProgressTracker = ProgressTracker(UNPACKING, RESPONDING)
 
     @Suspendable
-    override fun call(): String {
+    override fun call(): FakeOptionalJava<List<String>> {
         progressTracker.currentStep = UNPACKING
         progressTracker.currentStep = RESPONDING
-        return if (item.isPresent()) {
-            item.item!!
-        } else {
-            "empty"
-        }
+        val outBound = FakeOptionalJava<List<String>>(listOf("yes I returned", inbound.item))
+        return outBound
     }
 
 }

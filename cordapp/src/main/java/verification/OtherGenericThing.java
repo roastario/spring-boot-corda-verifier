@@ -5,28 +5,11 @@ import net.corda.core.serialization.CordaSerializable;
 import java.util.List;
 
 @CordaSerializable
-public class OtherGenericThing<T, S> {
-
-    private final T item;
+public class OtherGenericThing<S> {
     private final List<S> items;
-
-    public boolean isPresent() {
-        return item != null;
-    }
-
-    public T get() {
-        return item;
-    }
-
-    public T getItem() {
-        return item;
-    }
-
-    public OtherGenericThing(T item, List<S> items) {
-        this.item = item;
+    public OtherGenericThing(List<S> items) {
         this.items = items;
     }
-
     public List<S> getItems() {
         return items;
     }

@@ -23,7 +23,8 @@ class Api {
     fun testFakeOptional(): String {
         val cordaRPCClient = CordaRPCClient(NetworkHostAndPort("localhost", 10007))
         cordaRPCClient.use("test", "test") {
-            return it.proxy.startFlowDynamic(TestFakeCommsWithOptionalFlowInitiator::class.java, FakeOptional("This is just a test")).returnValue.getOrThrow()
+            return it.proxy.startFlowDynamic(KotlinInboundAndOutboundGenericFlow::class.java, FakeOptional("This is just a test")).returnValue.getOrThrow().item.toString()
+                    ?: "Empty"
         }
     }
 
@@ -31,7 +32,7 @@ class Api {
     fun testJavaFakeOptional(): String {
         val cordaRPCClient = CordaRPCClient(NetworkHostAndPort("localhost", 10007))
         cordaRPCClient.use("test", "test") {
-            return it.proxy.startFlowDynamic(TestJavaFakeCommsWithOptionalFlowInitiator::class.java, FakeOptionalJava("This is just a test")).returnValue.getOrThrow()
+            return it.proxy.startFlowDynamic(JavaInboundAndOutboundGenericFlow::class.java, FakeOptionalJava("This is just a test")).returnValue.getOrThrow().item.joinToString(separator = ", ") { it }
         }
     }
 }
