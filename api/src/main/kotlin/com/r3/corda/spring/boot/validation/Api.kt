@@ -35,6 +35,14 @@ class Api {
             return it.proxy.startFlowDynamic(JavaInboundAndOutboundGenericFlow::class.java, FakeOptionalJava("This is just a test")).returnValue.getOrThrow().item.joinToString(separator = ", ") { it }
         }
     }
+
+    @RequestMapping(path = ["serialization/madness"], method = [RequestMethod.GET])
+    fun testSuperGenericFlow(): String {
+        val cordaRPCClient = CordaRPCClient(NetworkHostAndPort("localhost", 10007))
+        cordaRPCClient.use("test", "test") {
+            return it.proxy.startFlowDynamic(ManyGenericsFlowKotlin::class.java, FakeOptional<String>("hey")).returnValue.getOrThrow().toString()
+        }
+    }
 }
 
 data class RpcRequest(val host: String, val port: Int, val user: String = "test", val pass: String = "test")

@@ -2,23 +2,45 @@ package verification.flow;
 
 import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.StartableByRPC;
-import verification.OtherGenericThing;
+import verification.FakeOptional;
+import verification.FakeOptionalJava;
+import verification.VeryGenericObjectJava;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @StartableByRPC
-public class ManyGenericsFlow extends FlowLogic<OtherGenericThing<String>> {
+public class ManyGenericsFlow extends FlowLogic<VeryGenericObjectJava<String, FakeOptionalJava<List<String>>,
+        VeryGenericObjectJava<Integer, Float, String>>> {
 
+    private final FakeOptional<String> input;
 
-    private final OtherGenericThing<String> input;
-
-    public ManyGenericsFlow(OtherGenericThing<String> input) {
+    public ManyGenericsFlow(FakeOptional<String> input) {
         this.input = input;
     }
 
     @Override
-    public OtherGenericThing<String> call() {
-        return new OtherGenericThing<>(IntStream.of(100).mapToObj((i) -> input.toString() + "" + i).collect(Collectors.toList()));
+    public VeryGenericObjectJava<String, FakeOptionalJava<List<String>>, VeryGenericObjectJava<Integer, Float, String>> call() {
+
+        VeryGenericObjectJava<Integer, Float, String> innerGeneric = new VeryGenericObjectJava<>(
+                Collections.singletonList(1),
+                Collections.singletonList(1.0f),
+                Collections.singletonList("One")
+        );
+
+        VeryGenericObjectJava<String, FakeOptionalJava<List<String>>, VeryGenericObjectJava<Integer, Float, String>> outerGeneric = new VeryGenericObjectJava<>(
+                listOfStrings("hello", "my", "old", "friend"),
+                Collections.singletonList(new FakeOptionalJava<>(Collections.singletonList("yessir"))),
+                Collections.singletonList(innerGeneric)
+        );
+
+        return outerGeneric;
+    }
+
+
+    private List<String> listOfStrings(String... things) {
+        return new ArrayList<String>(Arrays.asList(things));
     }
 }

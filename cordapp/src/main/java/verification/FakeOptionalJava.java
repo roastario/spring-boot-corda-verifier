@@ -22,4 +22,11 @@ public class FakeOptionalJava<T> {
     public FakeOptionalJava(T item) {
         this.item = item;
     }
+
+    @Override
+    public String toString() {
+        return "FakeOptionalJava{" +
+                "item=" + item +
+                '}';
+    }
 }

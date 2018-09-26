@@ -5,7 +5,8 @@ import net.corda.core.utilities.NetworkHostAndPort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import verification.OtherGenericThing;
+import verification.FakeOptional;
+import verification.VeryGenericObjectJava;
 import verification.flow.ManyGenericsFlow;
 
 import java.util.concurrent.ExecutionException;
@@ -13,18 +14,17 @@ import java.util.concurrent.ExecutionException;
 @RestController
 public class JavaApi {
     @RequestMapping(path = "javaserialization/madness", method = RequestMethod.GET)
-    public final int testJavaRPC() {
-
+    public final String testJavaRPC() {
         try {
             CordaRPCClient rpcOps = new CordaRPCClient(new NetworkHostAndPort("localhost", 10007));
             return rpcOps.use("test", "test", (cordaRPCConnection -> {
-                OtherGenericThing<String> thing = null;
+                VeryGenericObjectJava thing = null;
                 try {
-                    thing = cordaRPCConnection.getProxy().startFlowDynamic(ManyGenericsFlow.class).getReturnValue().get();
+                    thing = cordaRPCConnection.getProxy().startFlowDynamic(ManyGenericsFlow.class, new FakeOptional<String>("Hey")).getReturnValue().get();
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
                 }
-                return thing.getItems().size();
+                return thing.toString();
             }));
         } catch (Exception e) {
             System.out.println(e);
